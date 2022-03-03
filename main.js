@@ -8,27 +8,41 @@ console.log(sectionRect.width, sectionRect.height);
 
 const paintCarrots = () => {
     const carrot = document.createElement('li');
-    const carrotImage = document.createElement('img');
     const randX = Math.random() * (sectionRect.width - 0) + 0;
     const randY = Math.random() * (sectionRect.height - 0) + 0;
-    carrotImage.setAttribute('src', "img/carrot.png");
+    carrot.style.background = 'url(img/carrot.png) no-repeat'; 
     carrot.style.transform = `translate(${randX}px, ${randY}px)`;
-    carrot.appendChild(carrotImage);
+    carrot.classList.add('carrot');
     carrots.appendChild(carrot);
 };
 
 const paintBugs = () => {
     const bug = document.createElement('li');
-    const bugImage = document.createElement('img');
     const randX = Math.random() * (sectionRect.width - 0) + 0;
     const randY = Math.random() * (sectionRect.height - 0) + 0;
-    bugImage.setAttribute('src', "img/bug.png");
+    bug.style.background = 'url(img/bug.png) no-repeat';
     bug.style.transform = `translate(${randX}px, ${randY}px)`;
-    bug.appendChild(bugImage);
+    bug.classList.add('bug');
     bugs.appendChild(bug);
 }
 
-for(let i = 0; i < 10; i++){
-    paintCarrots();
-    paintBugs();
+const onClickItem = (event) => {
+    if(event.target.classList[0] == 'carrot'){
+        console.log('carrot!!');
+        carrots.removeChild(event.target);
+    }
+    else if(event.target.classList[0] == 'bug'){
+        console.log('bug!!');
+    }
 }
+
+
+window.addEventListener('load', () => {
+    for(let i = 0; i < 10; i++){
+        paintCarrots();
+        paintBugs();
+    }
+});
+
+bugs.addEventListener('click', onClickItem);
+carrots.addEventListener('click', onClickItem);

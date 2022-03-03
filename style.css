@@ -10,16 +10,23 @@ body{
 .game-wrap{
     width: 1280px;
     height: 720px;
-    background-image: url('img/background.png');
-    background-size: contain;
+    /* background-image: url('img/background.png');
+    background-size: contain; */
     display: flex;
     align-items: center;
     flex-direction: column;
     margin: 0 auto;
-
+    position: relative;
+    margin-top: 100px;
 }
 .game-wrap>img{
     width: 100%;
+}
+
+.background{
+    width: 100%;
+    position: absolute;
+    z-index: -1;
 }
 
 .game-section{

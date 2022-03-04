@@ -5,6 +5,8 @@ const sectionRect = gameSection.getBoundingClientRect();
 const count = document.querySelector('.carrot-counter');
 const resultText = document.querySelector('.result-text');
 const btnRestart = document.querySelector('.btn-restart');
+const btnStart = document.querySelector('.btn-start');
+const countDownTimer = document.querySelector('.countdown-timer');
 
 let carrotCount = 0;
 
@@ -41,6 +43,18 @@ const onCountingCarrot = () =>{
     }
 }
 
+//타이머 함수
+const getCountDownTimer = (status) => {
+    let secondRemaining = 10;
+    let countDownInterval = setInterval(()=>{
+        countDownTimer.textContent = `0:${secondRemaining}`;
+        secondRemaining--;
+        if(secondRemaining < 0){
+            clearInterval(countDownInterval);
+        }
+    }, 1000);
+}
+
 //클릭하면 처리하는 함수
 const onClickItem = (event) => {
     if(event.target.classList[0] == 'carrot'){
@@ -54,6 +68,7 @@ const onClickItem = (event) => {
     }
 }
 
+//뿌려진 애들 다 지우는 거
 const removeAllItem = () =>{
     while(bugs.firstChild){
         bugs.removeChild(bugs.firstChild);
@@ -69,10 +84,12 @@ const onInitGame = () => {
     count.innerText = carrotCount;
     resultText.innerText = '';
     removeAllItem();
+    btnRestart.removeEventListener('click', onInitGame);
     for(let i = 0; i < 10; i++){
         paintCarrots();
         paintBugs();
     }
+    getCountDownTimer();
 }
 
 //게임오버 처리
@@ -86,10 +103,13 @@ const onGameOver = (status) => {
     btnRestart.addEventListener('click', onInitGame);
 }
 
-//
+//게임 일시정지
+const onGamePause = () => {
+
+}
 
 //게임 초기화 부분. 나중에는 스타트 버튼 누르면 나오는 거로 바꿀 것.
-window.addEventListener('load', onInitGame);
+btnStart.addEventListener('click', onInitGame);
 
 bugs.addEventListener('click', onClickItem);
 carrots.addEventListener('click', onClickItem);

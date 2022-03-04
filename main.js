@@ -4,6 +4,7 @@ const carrots = document.querySelector('.carrots');
 const sectionRect = gameSection.getBoundingClientRect();
 const count = document.querySelector('.carrot-counter');
 const resultText = document.querySelector('.result-text');
+const btnRestart = document.querySelector('.btn-restart');
 
 let carrotCount = 0;
 
@@ -53,10 +54,21 @@ const onClickItem = (event) => {
     }
 }
 
+const removeAllItem = () =>{
+    while(bugs.firstChild){
+        bugs.removeChild(bugs.firstChild);
+    }
+    while(carrots.firstChild){
+        carrots.removeChild(carrots.firstChild);
+    }
+}
+
 //게임 초기화
 const onInitGame = () => {
     carrotCount = 0;
     count.innerText = carrotCount;
+    resultText.innerText = '';
+    removeAllItem();
     for(let i = 0; i < 10; i++){
         paintCarrots();
         paintBugs();
@@ -71,6 +83,7 @@ const onGameOver = (status) => {
     else if(status == 'lose'){
         resultText.innerText = 'You lose';
     }
+    btnRestart.addEventListener('click', onInitGame);
 }
 
 //

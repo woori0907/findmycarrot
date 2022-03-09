@@ -4,14 +4,22 @@
     margin: 0;
 }
 
+button{
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
 body{
     background-color: black;
+    overflow-y: hidden;
+    text-align: center;
 }
+
 .game-wrap{
     width: 1280px;
     height: 720px;
-    /* background-image: url('img/background.png');
-    background-size: contain; */
+    background: url('img/background.png') center/cover;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -23,13 +31,63 @@ body{
     width: 100%;
 }
 
+.game-header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 20vh;
+    justify-content: space-between;
+    margin-top: 5vh;
+}
+
+.game-button{
+    width: 50px;
+    height: 50px;
+    background-color: beige;
+    border: 2px solid black;
+    font-size: 2em;
+    border-radius: 12px;
+    transition: all 300ms ease-in;
+}
+
+.game-button:hover{
+    transform: scale(1.1);
+}
+
+.game-timer{
+    width: 120px;
+    height: 50px;
+    display: inline-block;
+    font-size: 2em;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 12px;
+    font-weight: bold;
+    text-align:center;
+    line-height: 1.5em;
+}
+
+.game-score{
+    border-radius: 50%;
+    border: 2px solid black;
+    background-color: coral;
+    font-size: 2em;
+    color: white;
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    line-height: 1.5em;
+    font-weight: bold;
+}
+
 .background{
     width: 100%;
     position: absolute;
     z-index: -1;
 }
 
-.game-section{
+.game-field{
     width: 1100px;
     height: 300px;
     position: relative;
@@ -41,4 +99,35 @@ body{
     display: inline-block;
     width: 80px;
     height: 80px;
+}
+
+.pop-up{
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 500px;
+    height: 300px;
+    transform: translateY(-150%);
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px 10px;
+    margin: 0 auto;
+}
+
+.pop-up-restart{
+    width: 50px;
+    height: 50px;
+    background-color: beige;
+    border: 2px solid black;
+    font-size: 2em;
+    border-radius: 12px;
+}
+.pop-up-text{
+    color: white;
+    margin-top: 25px;
+    font-size: 2.5em;
+    font-weight: bold;
+}
+.pop-up-hide{
+    display: none;
 }

@@ -9,6 +9,7 @@ const btnStart = document.querySelector('.btn-start');
 const countDownTimer = document.querySelector('.countdown-timer');
 
 let carrotCount = 0;
+let timerStatus;
 
 
 //당근 뿌리기
@@ -47,10 +48,17 @@ const onCountingCarrot = () =>{
 const getCountDownTimer = (status) => {
     let secondRemaining = 10;
     let countDownInterval = setInterval(()=>{
-        countDownTimer.textContent = `0:${secondRemaining}`;
-        secondRemaining--;
+        if(status == 'play'){
+            countDownTimer.textContent = `0:${secondRemaining}`;
+            secondRemaining--;
+            console.log(secondRemaining);
+        }
+        else if(status == 'pause'){
+            clearInterval(countDownInterval);
+        }
         if(secondRemaining < 0){
             clearInterval(countDownInterval);
+            onGameOver('lose');
         }
     }, 1000);
 }
@@ -84,12 +92,19 @@ const onInitGame = () => {
     count.innerText = carrotCount;
     resultText.innerText = '';
     removeAllItem();
-    btnRestart.removeEventListener('click', onInitGame);
+    btnStart.removeEventListener('click', onInitGame);
+    btnStart.addEventListener('click', onGamePauseToggle);
     for(let i = 0; i < 10; i++){
         paintCarrots();
         paintBugs();
     }
-    getCountDownTimer();
+    if(timerStatus == 'play'){
+        timerStatus = 'pause';
+    }
+    else{
+        timerStatus = 'play';
+    }
+    getCountDownTimer(timerStatus);
 }
 
 //게임오버 처리
@@ -104,8 +119,14 @@ const onGameOver = (status) => {
 }
 
 //게임 일시정지
-const onGamePause = () => {
-
+const onGamePauseToggle = () => {
+    if(timerStatus == 'play'){
+        timerStatus = 'pause';
+    }
+    else{
+        timerStatus = 'play';
+    }
+    getCountDownTimer(timerStatus);
 }
 
 //게임 초기화 부분. 나중에는 스타트 버튼 누르면 나오는 거로 바꿀 것.

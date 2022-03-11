@@ -96,12 +96,15 @@ body{
     transform: translateY(100px);
 }
 
-.carrots li, .bugs li{
-    position: absolute;
-    display: inline-block;
-    width: 80px;
-    height: 80px;
+.carrot, .bug{
+    transition: transform, 0.1 ease-in;
 }
+
+.carrot:hover, .bug:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
 
 .pop-up{
     background-color: rgba(0, 0, 0, 0.5);

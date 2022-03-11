@@ -1,37 +1,46 @@
-const gameSection = document.querySelector('.game-section');
-const bugs = document.querySelector('.bugs');
-const carrots = document.querySelector('.carrots');
-const sectionRect = gameSection.getBoundingClientRect();
-const count = document.querySelector('.carrot-counter');
+const gameField = document.querySelector('.game-field');
+const sectionRect = gameField.getBoundingClientRect();
+const count = document.querySelector('.game-score');
 const resultText = document.querySelector('.result-text');
 const btnRestart = document.querySelector('.btn-restart');
-const btnStart = document.querySelector('.btn-start');
-const countDownTimer = document.querySelector('.countdown-timer');
+const btnStart = document.querySelector('.game-button');
+const countDownTimer = document.querySelector('.game-timer');
 
+const CARROT_SIZE = 80;
+const CARROT_COUNT = 5;
+const BUG_COUNT = 5;
 let carrotCount = 0;
-let timerStatus;
+let started = false;
+let timer = undefined;
 
 
-//당근 뿌리기
-const paintCarrots = () => {
-    const carrot = document.createElement('li');
-    const randX = Math.random() * (sectionRect.width - 0) + 0;
-    const randY = Math.random() * (sectionRect.height - 0) + 0;
-    carrot.style.background = 'url(img/carrot.png) no-repeat'; 
-    carrot.style.transform = `translate(${randX}px, ${randY}px)`;
-    carrot.classList.add('carrot');
-    carrots.appendChild(carrot);
-};
+const initGame = () => {
+    gameField.innerHTML = '';
+    count.innerText = CARROT_COUNT;
+    addItem('carrot', 5, 'img/carrot.png');
+    addItem('bug', 5, 'img/bug.png');
+}
 
-//곤충 뿌리기
-const paintBugs = () => {
-    const bug = document.createElement('li');
-    const randX = Math.random() * (sectionRect.width - 0) + 0;
-    const randY = Math.random() * (sectionRect.height - 0) + 0;
-    bug.style.background = 'url(img/bug.png) no-repeat';
-    bug.style.transform = `translate(${randX}px, ${randY}px)`;
-    bug.classList.add('bug');
-    bugs.appendChild(bug);
+const addItem = (className, count, imgPath) => {
+    const x1 = 0;
+    const y1 = 0;
+    const x2 = sectionRect.width-CARROT_SIZE;
+    const y2 = sectionRect.height-CARROT_SIZE;
+    for (let i = 0; i < count; i++){
+        const item = document.createElement('img');
+        item.setAttribute('class', className);
+        item.setAttribute('src', imgPath);
+        item.style.position = 'absolute';
+        const x = randomNumber(x1, x2);
+        const y = randomNumber(y1, y2);
+        item.style.left = `${x}px`;
+        item.style.top = `${y}px`;
+        gameField.appendChild(item);
+    }
+}
+
+const randomNumber = (min, max) => {
+    return Math.random() * (max - min) + min;
 }
 
 //당근 세는 함수
@@ -86,27 +95,6 @@ const removeAllItem = () =>{
     }
 }
 
-//게임 초기화
-const onInitGame = () => {
-    carrotCount = 0;
-    count.innerText = carrotCount;
-    resultText.innerText = '';
-    removeAllItem();
-    btnStart.removeEventListener('click', onInitGame);
-    btnStart.addEventListener('click', onGamePauseToggle);
-    for(let i = 0; i < 10; i++){
-        paintCarrots();
-        paintBugs();
-    }
-    if(timerStatus == 'play'){
-        timerStatus = 'pause';
-    }
-    else{
-        timerStatus = 'play';
-    }
-    getCountDownTimer(timerStatus);
-}
-
 //게임오버 처리
 const onGameOver = (status) => {
     if(status == 'win'){
@@ -130,7 +118,34 @@ const onGamePauseToggle = () => {
 }
 
 //게임 초기화 부분. 나중에는 스타트 버튼 누르면 나오는 거로 바꿀 것.
-btnStart.addEventListener('click', onInitGame);
+btnStart.addEventListener('click', () => {
+    if(started){
+        stopGame();
+    }
+    else{
+        startGame();
+    }
+    started = !started;
+});
 
-bugs.addEventListener('click', onClickItem);
-carrots.addEventListener('click', onClickItem);
+const startGame = () => {
+    initGame();
+    showStopButton();
+    showTimerAndScore();
+}
+const stopGame = () => {
+
+}
+const showStopButton = () => {
+    const icon = btnStart.querySelector('.fa-play');
+    icon.classList.add('fa-stop');
+    icon.classList.remove('.fa-play');
+}
+
+const showTimerAndScore = () => {
+    count.style.visibility = 'visible';
+    countDownTimer.style.visibility = 'visible';
+}
+
+// bugs.addEventListener('click', onClickItem);
+// carrots.addEventListener('click', onClickItem);

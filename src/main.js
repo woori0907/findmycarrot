@@ -3,6 +3,7 @@
 //클래스 불러오기
 import gamePop from './popup.js';
 import Field from './field.js';
+import * as sound from './sound.js';
 
 //UI 관련 DOM요소 받아오기
 const count = document.querySelector('.game-score');
@@ -19,21 +20,18 @@ const CARROT_COUNT = 5;
 const BUG_COUNT = 5;
 const GAME_DURATION_SEC = 10;
 
-// 사운드
-const alertSound = new Audio('sound/alert.mp3');
-const bgSound = new Audio('sound/bg.mp3');
-const winSound = new Audio('sound/game_win.mp3');
-const bugSound = new Audio('sound/bug_pull.mp3');
+
 
 //객체 생성
 const gameFinishBanner = new gamePop();//팝업 객체 생성
 const gameField = new Field(CARROT_COUNT,BUG_COUNT);//필드 객체 생성
 
 
-const onItemClick = (event) => {
+const onItemClick = (item) => {
     if(!started){
         return;
     }
+    console.log(item);
     if(item === 'carrot'){
         onCountingCarrot();
         if(carrotCount === CARROT_COUNT){
@@ -59,15 +57,6 @@ const initGame = () => {
 }
 
 
-// 음악, 효과음 재생 관련 함수
-const playSound = (sound) => {
-    sound.currentTime = 0;
-    sound.play();
-}
-
-const stopSound = (sound) => {
-    sound.pause();
-}
 
 const onCountingCarrot = () =>{
     carrotCount++;
@@ -76,12 +65,12 @@ const onCountingCarrot = () =>{
 
 const finishGame = (win) => {
     started = false;
-    stopSound(bgSound);
+    sound.stopBg();
     if(win){
-        playSound(winSound);
+        sound.playWin();
     }
     else{
-        playSound(bugSound);
+        sound.playWin();
     }
     stopGameTimer();
     hideGameButton();
@@ -95,14 +84,14 @@ const startGame = () => {
     showStopButton();
     showTimerAndScore();
     startGameTimer();
-    playSound(bgSound);
+    sound.playBg();
     btnStart.style.visibility = 'visible';
 }
 const stopGame = () => {
     started = false;
     gameFinishBanner.showWidthText('Replay?');
-    playSound(alertSound);
-    stopSound(bgSound);
+    sound.playAlert();
+    sound.stopBg();
     stopGameTimer();
 }
 

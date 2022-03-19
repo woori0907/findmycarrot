@@ -4,6 +4,11 @@ import * as sound from './sound.js';
 
 const CARROT_SIZE = 80;
 
+export const ItemType = Object.freeze({
+    carrot: 'carrot',
+    bug: 'bug',
+});
+
 export default class Field{
     constructor(carrotCount, bugCount){
         this.carrotCount = carrotCount;
@@ -14,8 +19,8 @@ export default class Field{
     }
     init(){
         this.gameField.innerHTML = '';
-        this._addItem('carrot', 5, 'img/carrot.png');
-        this._addItem('bug', 5, 'img/bug.png');
+        this._addItem(ItemType.carrot, 5, 'img/carrot.png');
+        this._addItem(ItemType.bug, 5, 'img/bug.png');
     }
 
     
@@ -48,11 +53,11 @@ export default class Field{
         if(target.matches('.carrot')){
             sound.playCarrot();
             target.remove();
-            this.onItemClick&&this.onItemClick('carrot');
+            this.onItemClick&&this.onItemClick(ItemType.carrot);
         }
         else if(target.matches('.bug')){
             sound.playBug();
-            this.onItemClick&&this.onItemClick('bug');
+            this.onItemClick&&this.onItemClick(ItemType.bug);
         }
     }
 

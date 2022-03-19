@@ -4,10 +4,6 @@
 import GameBuilder, { Reason } from './game.js';
 import gamePop from './popup.js';
 
-const CARROT_COUNT = 5;
-const BUG_COUNT = 5;
-const GAME_DURATION_SEC = 10;
-
 
 //객체 생성
 const gameFinishBanner = new gamePop();//팝업 객체 생성
